@@ -1,7 +1,10 @@
 package gojek.com.business;
 
 import gojek.com.beans.Car;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
 
 public class ParkingLotImpl {
@@ -33,4 +36,70 @@ public class ParkingLotImpl {
         }
         return (nextAvail + 1);
     }
+    public void leaveCar(int slotNum){
+        availability++;
+        freeSlots.add(slotNum);
+        parkingLotMap.put(slotNum, null);
+    }
+
+    public void getStatus(){
+        System.out.println("Slot No\tRegistration No\tColour");
+        for(int i=0;i<capacity;i++){
+            Car r = parkingLotMap.get(i);
+            if(r != null){
+                System.out.println(i+1 +"\t"+r.getRegNo()+"\t"+r.getColour());
+            }
+        }
+    }
+
+    public void getRegNumberForColor(String colour){
+        List<String> res = new ArrayList<String>();
+        for(int i=0;i<capacity;i++){
+            Car r = parkingLotMap.get(i);
+            if(r != null && colour.equals(r.getColour())){
+                res.add(r.getRegNo());
+            }
+        }
+        printStringList(res);
+    }
+
+    public void getSlotNumberForColor(String colour){
+        List<Integer> res = new ArrayList<Integer>();
+        for(int i=0;i<capacity;i++){
+            Car r = parkingLotMap.get(i);
+            if(r != null && colour.equals(r.getColour())){
+                res.add(i+1);
+            }
+        }
+        printIntegerList(res);
+    }
+
+    public int getSlotNumberForReqNumber(String regNum){
+        int res=-1;
+        for(int i=0;i<capacity;i++){
+            Car r = parkingLotMap.get(i);
+            if(r != null && regNum.equals(r.getRegNo())){
+                res = i+1;
+            }
+        }
+        return res;
+    }
+
+    private void printStringList(List<String> list){
+        int i=0;
+        for(i=0;i<list.size()-1;i++){
+            System.out.print(list.get(i)+", ");
+        }
+        System.out.println(list.get(i));
+    }
+
+    private void printIntegerList(List<Integer> list){
+        int i=0;
+        for(i=0;i<list.size()-1;i++){
+            System.out.print(list.get(i)+", ");
+        }
+        System.out.println(list.get(i));
+    }
+
+
 }
